@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .Container{
+            height: 600px;
+            display: flex;
+            margin: auto;
+            /* border: 1px solid black; */
+            background-color: wheat;
+
+        }
+        .container-left
+        {
+            padding: 15px;
+            background-color: rgba(173, 171, 171, 0.658);
+            width: 80%;
+            margin-left: 10px;
+            border-radius: 5px;
+        }
+        /* *
+        {
+            box-sizing: border-box;
+        } */
+        .item
+        {
+            background-color: white;
+            border: 2px solid gray;
+            padding: 20px;
+            margin: 5px;
+            float: left;
+            height: 150px;
+            width: 170px;
+        }
+        .item.image
+        {
+            justify-content: center;
+            text-align: center;
+        }
+        .item.button
+        {
+            text-align: end;
+        } 
+        .item.bookinfor
+        {
+            text-align: left;
+        }
+        .container-right
+        {
+            padding: 15px;
+            background-color: rgb(171, 177, 175);
+            width: 20%;
+            border-radius: 5px;
+        }
+        #list-book
+        {
+            /* border: 1px solid black; */
+            width: fit-content;
+        }
+        #add-button
+        {
+            cursor: pointer;
+            border: 1px solid black;
+            background-color: rgb(18, 170, 119);
+        }
+    </style>
+    
+</head>
+<body onload="listbook();">
+    <div class="Container">
+        <div class="container-right">
+            <label for="text">Name</label>
+            <br><input type="text" id="name"placeholder="c programming">
+            <br><label for="text">Category</label>
+            <br><input type="text"id="category" placeholder="coding">
+            <br><label for="price">price</label>
+            <br><input input type="Money" name="" id="price" placeholder="1000 riel">
+            <br><br><button id="add-button" onclick="addBook()">Add</button>
+        </div>
+        <div class="container-left">
+            <div id="list-book"></div>
+        </div>
+
+    </div>
+    <script>
+        var books=[
+            {
+                'name':'C programming',
+                'category':'Programming',
+                'price': '20$',
+
+            },
+            {
+                'name':'One Mission',
+                'category':'Novel',
+                'price': '7$',
+
+            },
+            {
+                'name':'Ghost story',
+                'category':'Horror',
+                'price': '5$',
+
+            },
+        ];
+        function listbook(){
+            var index=0;
+            document.getElementById('list-book').innerHTML="";
+            books.forEach(book=>
+            {
+                document.getElementById('list-book').innerHTML +=
+                `<div class="item">
+                     <div class ="button">
+                        <button onclick="deleteBook(${index});">Delete</button>
+                        <button onclick="updateBook(${index});">Change Name</button>
+                    </div>
+                    <div class="image">
+                        <img src="./book.jpg" alt=" " width="40%">
+                    </div>
+                    <div class="bookinfor">
+                        <span> Name:${book?.name}</span><br>
+                        <span>Price:${book?.price}</span><br>
+                        <span>Category:${book?.category}<span><br>
+                    </div>
+                </div>`;
+                index++;
+
+            });
+        }
+        function addBook(){
+            let id =books.length;
+            let name=document.getElementById("name").value;
+            let category=document.getElementById("category").value;
+            let price=document.getElementById("price").value;
+            let book ={
+                'name':name,
+                'category':category,
+                'price':price+"riel"
+            };
+            books.push(book);
+            listbook();
+
+        }
+        function updateBook(index){
+
+        }
+        function deleteBook(index){
+            books.splice(index,1);
+            listbook();
+        }
+        fetch('')
+        .then((Response)=>{
+            return response.json();
+        })
+        .then((mhjson)=>{
+            console.log(myJson);
+        })
+
+    </script>
+    
+</body>
+</html>

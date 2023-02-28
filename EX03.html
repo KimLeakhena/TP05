@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./tailwindcss.js"></script>
+    <style>
+        .lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgb(13, 163, 131);
+  margin: -4px 0 0 -4px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 63px;
+  left: 63px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 68px;
+  left: 56px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 71px;
+  left: 48px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 71px;
+  left: 32px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 68px;
+  left: 24px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 63px;
+  left: 17px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 56px;
+  left: 12px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+  
+}
+.type{
+  display: flex;
+  justify-content:space-between;
+   background-color: rgb(152, 197, 236);
+   width: 400px;
+   border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+  margin: auto;
+  border: 2px solid black;
+  font-weight: bold;
+}
+    </style>
+</head>
+<body>
+    <div class="w-[700px] h-[700px] border-4 border-black justify-center text-center mx-auto ">
+        <div class="h-[200px] w-[250px] mx-auto  my-4 ">
+            <img src="https://i.etsystatic.com/20808056/c/2000/1589/51/34/il/7ca62e/2263852048/il_340x270.2263852048_d4vn.jpg" >
+        </div>
+        <div class="text-center font-bold  text-4xl p-4  font-serif">
+            <h1> I know your <span style ="color:rgb(37, 56, 163)">Home</span></h1>
+        </div>
+        <input type="text" id="Nameinput" placeholder="Tell me your first name"class="w-[200px] h-[35px] p-4 border-2  rounded-md my-4">
+        <button class="bg-indigo-500 hover:bg-cyan-600 w-[100px] h-[35px] text-white border-2 rounded-md" onclick="fetchGuessing()">Guess</button>
+        <div id="loading-text" hidden>
+            <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+
+        <div>
+          <div id="sub-contain" hidden class=" flext justify-center w-[100%] h-auto  my-2 "></div>
+        </div>
+        
+    </div>
+    <script>
+         const loadingtextEle=document.getElementById("loading-text");
+         const NameinputEle=document.getElementById("Nameinput");
+         const subcontain=document.getElementById("sub-contain");
+        
+      
+         function fetchGuessing(){
+            loadingtextEle.hidden=false;
+            subcontain.hidden=true;
+            fetch("https://api.nationalize.io?name="+NameinputEle.value)
+            .then(async(res)=>{
+                loadingtextEle.hidden=true;
+                let data=await res.json();
+                console.log(data);
+                 let result=data.country;
+                 for(let l of result){
+                    subcontain.innerHTML+=`
+                    <div class="type">
+                      <div>${l.country_id}</div>
+                      <div>${(l.probability*100).toPrecision(2)}%</div>
+                    </div>
+                    ` 
+                 }
+
+  
+                subcontain.hidden=false;
+            });
+         }
+    </script>
+    
+</body>
+</html>
