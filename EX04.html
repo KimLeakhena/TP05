@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./tailwindcss.js"></script>
+    <style>
+        .lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #29cc96;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+    </style>
+</head>
+<body>
+    <div class="w-[700px] h-[600px] border-4 border-black justify-center text-center mx-auto">
+        <div class="h-[100px] w-[150px] mx-auto  my-4 ">
+            <img src="https://em-content.zobj.net/source/microsoft-teams/337/school_1f3eb.png" >
+        </div>
+        <div class="text-center font-bold  text-4xl p-8  font-serif">
+            <h1> Which Univ.do you want to study?</h1>
+        </div>
+        <!-- <input type="text" id="name" placeholder="Tell me your first name"class="w-[300px] h-[45px] p-auto border-2  rounded-md my-4"> -->
+        
+          <label for="Country"  onclick="fetchNewActivity()"></label>
+          <select name="Country" id="country_id "class="w-[400px] h-[45px] border-black p-auto border-2  rounded-md my-4" >
+            <option value="Cambodia" >Cambodia</option>
+            <option value="Thailand">Thailand</option>
+            <option value="Korea">Korea</option>
+            <option value="Japan">Japan</option>
+          </select>
+        <div id="loading-text" hidden>
+            <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+        </div>
+        <div id="list-University" hidden class="w-[400px] h-[200px] rounded bg-[#fecdd3] my-2 rounded-md border-2 border-inherit mx-auto ">
+          <div id="Country"></div>
+          <div id="alpha_code"></div>
+          <div id="web-page"></div>
+
+          <div class="">
+            <div id="province"></div>
+            <div id=""></div>
+          </div>
+        </div>
+        
+    </div>
+    
+</body> <script>
+    const loadingtextEle=document.getElementById("loading-text");
+    const CountryidEle=document.getElementById("Countryid");
+    const alpha_codeEle=document.getElementById("alpha_code");
+    const ListUniversity=document.getElementById("list-University");
+
+    function fetchGuessing(){
+       ListUniversity.innerHTML=" ";
+       loadingtextEle.hidden=false;
+       ListUniversity.hidden=true;
+       fetch(" http://universities.hipolabs.com/search?country="+CountryidEle.value)
+       .then(async(res)=>{
+           loadingtextEle.hidden=true;
+           let data=await res.json();
+           console.log(data);
+           
+           ActivityEle.hidden=false; 
+       });
+    }
+</script>
+</html>
